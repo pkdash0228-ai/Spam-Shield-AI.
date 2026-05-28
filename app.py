@@ -51,7 +51,7 @@ st.title("🛡️ SHIELDAI: ELITE SECURITY ARCHITECTURE")
 
 # College name removed from here
 st.markdown(f"""
-    **Lead Developer:** Pritam Dash | **System Status:** Operational | **Version:** 2.0.1
+    **Lead Developer:** Pritam Kumar Dash | **System Status:** Operational | **Version:** 2.0.1
     
     ---
     **Technical Overview:** This utility utilizes high-precision **Multinomial Naive Bayes** logic to classify communication patterns. It is engineered to identify phishing attempts and social engineering threats with mathematical accuracy.
