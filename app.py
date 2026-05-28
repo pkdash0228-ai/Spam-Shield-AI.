@@ -8,56 +8,55 @@ try:
 except:
     st.error("Error: Model files not found!")
 
-st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️")
+st.set_page_config(page_title="ShieldAI Enterprise", page_icon="🛡️", layout="centered")
 
-# Force-fixing Button Text and Cursor
+# Professional Theme Styling
 st.markdown("""
     <style>
-    /* Background and Main Text */
     .stApp { background-color: #ffffff !important; }
-    h1, p, label { color: #000000 !important; font-weight: bold !important; }
-
-    /* Input Box: Black Text and Black Cursor */
+    h1, h2, h3, p, label, .stMarkdown { color: #000000 !important; font-family: 'Segoe UI', sans-serif !important; }
+    
+    /* Input Area */
     .stTextArea textarea {
         background-color: #ffffff !important;
         color: #000000 !important;
-        caret-color: #000000 !important; /* Point/Cursor visibility */
+        caret-color: #000000 !important;
         border: 2px solid #000000 !important;
     }
 
-    /* THE ULTIMATE BUTTON FIX: Force Text Visibility */
+    /* Professional Button */
     div.stButton > button {
         background-color: #000000 !important;
-        color: #ffffff !important; /* Force text color white */
+        color: #ffffff !important;
         width: 100% !important;
         height: 50px !important;
-        border-radius: 5px !important;
+        font-weight: bold !important;
         border: none !important;
-        font-size: 18px !important;
-        font-weight: bold !important;
-    }
-
-    /* Isse text har haal mein dikhega */
-    div.stButton > button p {
-        color: #ffffff !important;
-        font-size: 18px !important;
-        font-weight: bold !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
-    div.stButton > button:hover {
-        background-color: #333333 !important;
-    }
+    div.stButton > button:hover { background-color: #333333 !important; }
     </style>
     """, unsafe_allow_html=True)
 
-# UI Setup
-st.title("🛡️ SHIELDAI: SECURITY SCANNER")
-st.write("Professional Spam Detection System — Designed by Pritam Dash")
+# --- Dashboard UI (Enterprise Look) ---
+st.title("🛡️ SHIELDAI: ENTERPRISE SPAM ARCHITECTURE")
 
-input_sms = st.text_area("ANALYZE MESSAGE CONTENT", placeholder="Paste suspicious text here...", height=150)
+st.markdown(f"""
+    **Lead Developer:** Pritam Dash | **Affiliation:** GITAM | **System Status:** Operational
+    
+    ---
+    **Technical Overview:** This utility utilizes high-precision **Multinomial Naive Bayes** logic to classify communication patterns. It is engineered to identify phishing attempts and social engineering threats with mathematical accuracy.
+    """, unsafe_allow_html=True)
 
-# Button with explicit text
-if st.button('RUN DEEP SCAN'):
+# Input area
+input_sms = st.text_area("COMMUNICATION TELEMETRY INPUT", 
+                         placeholder="Paste the message content here for deep analysis...", 
+                         height=150)
+
+# Execution Logic
+if st.button('RUN SYSTEM ANALYSIS'):
     if input_sms:
         vector_input = tfidf.transform([input_sms])
         result = model.predict(vector_input)[0]
@@ -65,8 +64,10 @@ if st.button('RUN DEEP SCAN'):
         confidence = max(proba) * 100
 
         if result == 1:
-            st.error(f"🚨 SPAM DETECTED! (Confidence: {confidence:.2f}%)")
+            st.error(f"🚨 CRITICAL THREAT DETECTED! (AI Confidence: {confidence:.2f}%)")
+            st.warning("Protocol: Quarantining message recommended. Do not engage with links.")
         else:
-            st.success(f"✅ VERIFIED SAFE (Confidence: {confidence:.2f}%)")
+            st.success(f"✅ SYSTEM VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
+            st.info("Protocol: Message appears legitimate based on current datasets.")
     else:
-        st.info("Please enter a message to scan.")
+        st.info("Please provide input for analysis.")
