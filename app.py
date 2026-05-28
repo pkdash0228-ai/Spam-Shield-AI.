@@ -1,41 +1,72 @@
 import streamlit as st
 import pickle
 
-# Model load karna
-tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
-model = pickle.load(open('model.pkl', 'rb'))
+# Model & Vectorizer Load
+try:
+    tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
+    model = pickle.load(open('model.pkl', 'rb'))
+except:
+    st.error("Error: Model files not found!")
 
-st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️")
+st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️", layout="centered")
 
-# Force styling for better visibility
+# Black and White Minimalist Theme
 st.markdown("""
     <style>
-    .stApp { background-color: white; }
-    h1, h2, h3, p, span, label { color: #1a5276 !important; font-weight: bold; }
-    .stButton>button {
-        width: 100%;
-        background-color: #2E86C1 !important;
-        color: white !important;
-        border-radius: 10px;
-        height: 50px;
-        font-weight: bold;
-        border: none;
+    /* 1. Background White */
+    .stApp {
+        background-color: #ffffff !important;
     }
+
+    /* 2. All Text to Pure Black */
+    h1, h2, h3, p, label, .stMarkdown, .stText, span {
+        color: #000000 !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    /* 3. Text Area - Black Border, Black Text, Black Cursor */
     .stTextArea textarea {
-        background-color: #f1f2f6 !important;
-        color: #2f3542 !important;
-        border: 2px solid #1a5276 !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        caret-color: #000000 !important; /* This makes the cursor BLACK */
+        border: 2px solid #000000 !important;
+        font-size: 16px !important;
     }
+
+    /* 4. Button - Solid Black with White Text */
+    div.stButton > button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border-radius: 5px !important;
+        width: 100% !important;
+        height: 50px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        border: 2px solid #000000 !important;
+        transition: 0.3s;
+    }
+    
+    div.stButton > button:hover {
+        background-color: #333333 !important;
+        color: #ffffff !important;
+    }
+
+    /* 5. Hide Streamlit Branding for Clean Look */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🛡️ ShieldAI: Live Security Scanner")
-st.write("Professional Spam Detection System - Designed by Pritam Dash")
+# Dashboard UI
+st.title("🛡️ SHIELDAI: SECURITY SCANNER")
+st.write("Professional Spam Detection System — Designed by Pritam Dash")
 
 # Input area
-input_sms = st.text_area("Analyze Message Content", placeholder="Paste the suspicious text here...", height=150)
+input_sms = st.text_area("ANALYZE MESSAGE CONTENT", placeholder="Paste suspicious text here...", height=150)
 
-if st.button('🚀 EXECUTE DEEP SCAN'):
+# Execution Logic
+if st.button('RUN DEEP SCAN'):
     if input_sms:
         vector_input = tfidf.transform([input_sms])
         result = model.predict(vector_input)[0]
@@ -43,9 +74,8 @@ if st.button('🚀 EXECUTE DEEP SCAN'):
         confidence = max(proba) * 100
 
         if result == 1:
-            st.error(f"🚨 SPAM DETECTED! (AI Confidence: {confidence:.2f}%)")
-            st.warning("⚠️ ACTION: Do not click any links or share personal info.")
+            st.error(f"🚨 SPAM DETECTED! (Confidence: {confidence:.2f}%)")
         else:
-            st.success(f"✅ VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
+            st.success(f"✅ VERIFIED SAFE (Confidence: {confidence:.2f}%)")
     else:
-        st.info("ℹ️ Please enter a message to scan.")
+        st.info("Please enter a message to scan.")
