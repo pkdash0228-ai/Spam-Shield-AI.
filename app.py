@@ -8,43 +8,50 @@ try:
 except:
     st.error("Error: Model files not found!")
 
-st.set_page_config(page_title="ShieldAI Enterprise", page_icon="🛡️", layout="centered")
+st.set_page_config(page_title="ShieldAI Elite", page_icon="🛡️", layout="centered")
 
-# Professional Theme Styling
+# --- COMPLETE DESIGN OVERHAUL (Glitch Fix) ---
 st.markdown("""
     <style>
     .stApp { background-color: #ffffff !important; }
     h1, h2, h3, p, label, .stMarkdown { color: #000000 !important; font-family: 'Segoe UI', sans-serif !important; }
     
-    /* Input Area */
+    /* THE BUTTON GLITCH FIX: Using !important on every property */
+    div.stButton > button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        width: 100% !important;
+        height: 55px !important;
+        font-weight: 800 !important;
+        font-size: 20px !important;
+        border: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-transform: uppercase !important;
+    }
+    
+    /* Making sure text is white and visible inside the button */
+    div.stButton > button div p {
+        color: #ffffff !important;
+        font-weight: 800 !important;
+    }
+
     .stTextArea textarea {
         background-color: #ffffff !important;
         color: #000000 !important;
         caret-color: #000000 !important;
         border: 2px solid #000000 !important;
     }
-
-    /* Professional Button */
-    div.stButton > button {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-        width: 100% !important;
-        height: 50px !important;
-        font-weight: bold !important;
-        border: none !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    div.stButton > button:hover { background-color: #333333 !important; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- Dashboard UI (Enterprise Look) ---
-st.title("🛡️ SHIELDAI: ENTERPRISE SPAM ARCHITECTURE")
+# --- Dashboard UI (Gitam Name Removed) ---
+st.title("🛡️ SHIELDAI: ELITE SECURITY ARCHITECTURE")
 
+# College name removed from here
 st.markdown(f"""
-    **Lead Developer:** Pritam Dash | **Affiliation:** GITAM | **System Status:** Operational
+    **Lead Developer:** Pritam Dash | **System Status:** Operational | **Version:** 2.0.1
     
     ---
     **Technical Overview:** This utility utilizes high-precision **Multinomial Naive Bayes** logic to classify communication patterns. It is engineered to identify phishing attempts and social engineering threats with mathematical accuracy.
@@ -65,9 +72,7 @@ if st.button('RUN SYSTEM ANALYSIS'):
 
         if result == 1:
             st.error(f"🚨 CRITICAL THREAT DETECTED! (AI Confidence: {confidence:.2f}%)")
-            st.warning("Protocol: Quarantining message recommended. Do not engage with links.")
         else:
             st.success(f"✅ SYSTEM VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
-            st.info("Protocol: Message appears legitimate based on current datasets.")
     else:
         st.info("Please provide input for analysis.")
