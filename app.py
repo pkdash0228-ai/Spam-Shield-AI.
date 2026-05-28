@@ -7,29 +7,24 @@ model = pickle.load(open('model.pkl', 'rb'))
 
 st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️")
 
-# Custom CSS for Visibility and Cursor
+# Force styling for better visibility
 st.markdown("""
     <style>
-    /* Background and Text Colors */
-    .stApp { background-color: #ffffff; }
-    h1, p, label { color: #1a5276 !important; }
-    
-    /* Input Area - Cursor Fix */
-    .stTextArea textarea {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 2px solid #1a5276 !important;
-        caret-color: #000000 !important; /* Isse likhne wala point/cursor dikhega */
-    }
-    
-    /* Button Styling */
+    .stApp { background-color: white; }
+    h1, h2, h3, p, span, label { color: #1a5276 !important; font-weight: bold; }
     .stButton>button {
         width: 100%;
-        background-color: #1a5276 !important;
+        background-color: #2E86C1 !important;
         color: white !important;
-        border-radius: 8px;
+        border-radius: 10px;
         height: 50px;
         font-weight: bold;
+        border: none;
+    }
+    .stTextArea textarea {
+        background-color: #f1f2f6 !important;
+        color: #2f3542 !important;
+        border: 2px solid #1a5276 !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -38,7 +33,7 @@ st.title("🛡️ ShieldAI: Live Security Scanner")
 st.write("Professional Spam Detection System - Designed by Pritam Dash")
 
 # Input area
-input_sms = st.text_area("Analyze Message Content", placeholder="Yahan apna message paste karein...", height=150)
+input_sms = st.text_area("Analyze Message Content", placeholder="Paste the suspicious text here...", height=150)
 
 if st.button('🚀 EXECUTE DEEP SCAN'):
     if input_sms:
@@ -49,6 +44,7 @@ if st.button('🚀 EXECUTE DEEP SCAN'):
 
         if result == 1:
             st.error(f"🚨 SPAM DETECTED! (AI Confidence: {confidence:.2f}%)")
+            st.warning("⚠️ ACTION: Do not click any links or share personal info.")
         else:
             st.success(f"✅ VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
     else:
