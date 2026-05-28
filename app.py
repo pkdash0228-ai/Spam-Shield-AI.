@@ -5,31 +5,43 @@ import pickle
 tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
-st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️")
+st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️", layout="centered")
 
-# Custom CSS for Visibility and Cursor
+# Sab kuch fix karne ke liye CSS
 st.markdown("""
     <style>
-    /* Background and Text Colors */
-    .stApp { background-color: #ffffff; }
-    h1, p, label { color: #1a5276 !important; }
+    /* Pure White Background */
+    .stApp { background-color: white !important; }
     
-    /* Input Area - Cursor Fix */
+    /* Text Visibility Fix */
+    h1, h2, h3, p, label, .stMarkdown { color: #1a5276 !important; }
+
+    /* Input Box styling - Cursor & Text black */
     .stTextArea textarea {
-        background-color: #ffffff !important;
+        background-color: #f8f9fa !important;
         color: #000000 !important;
+        caret-color: #000000 !important;
         border: 2px solid #1a5276 !important;
-        caret-color: #000000 !important; /* Isse likhne wala point/cursor dikhega */
+        font-size: 18px !important;
     }
-    
-    /* Button Styling */
-    .stButton>button {
-        width: 100%;
+
+    /* THE BUTTON FIX - Making text visible */
+    div.stButton > button {
         background-color: #1a5276 !important;
         color: white !important;
-        border-radius: 8px;
-        height: 50px;
-        font-weight: bold;
+        border-radius: 10px !important;
+        width: 100% !important;
+        height: 60px !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        border: none !important;
+        display: block !important;
+    }
+    
+    /* Button Hover effect */
+    div.stButton > button:hover {
+        background-color: #2471a3 !important;
+        color: white !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -38,8 +50,9 @@ st.title("🛡️ ShieldAI: Live Security Scanner")
 st.write("Professional Spam Detection System - Designed by Pritam Dash")
 
 # Input area
-input_sms = st.text_area("Analyze Message Content", placeholder="Yahan apna message paste karein...", height=150)
+input_sms = st.text_area("Analyze Message Content", placeholder="Message yahan paste karein...", height=150)
 
+# Scanning logic
 if st.button('🚀 EXECUTE DEEP SCAN'):
     if input_sms:
         vector_input = tfidf.transform([input_sms])
@@ -52,4 +65,4 @@ if st.button('🚀 EXECUTE DEEP SCAN'):
         else:
             st.success(f"✅ VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
     else:
-        st.info("ℹ️ Please enter a message to scan.")
+        st.warning("⚠️ Please enter a message first.")
