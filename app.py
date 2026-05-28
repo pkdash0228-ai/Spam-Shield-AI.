@@ -1,51 +1,55 @@
 import streamlit as st
 import pickle
 
-# Model & Vectorizer Load
-try:
-    tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
-    model = pickle.load(open('model.pkl', 'rb'))
-except:
-    st.error("Error: Model files not found!")
+# Model load karna
+tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
+model = pickle.load(open('model.pkl', 'rb'))
 
-st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️", layout="centered")
+st.set_page_config(page_title="ShieldAI Live", page_icon="🛡️")
 
-# Sab kuch force-fix karne ke liye High-Priority CSS
+# Custom CSS for Visibility and Cursor
 st.markdown("""
     <style>
-    /* 1. Pure White Background for the whole app */
-    .stApp {
-        background-color: white !important;
-    }
-
-    /* 2. Fix all text visibility (Black/Blue) */
-    h1, h2, h3, p, label, .stMarkdown, .stText {
-        color: #1a5276 !important;
-        font-family: 'sans-serif';
-    }
-
-    /* 3. The Ultimate Button Fix (Force White Text) */
-    div.stButton > button {
-        background-color: #1a5276 !important;
-        color: #ffffff !important; /* Force white text */
-        border-radius: 10px !important;
-        width: 100% !important;
-        height: 55px !important;
-        font-size: 22px !important;
-        font-weight: 700 !important;
-        border: none !important;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2) !important;
+    /* Background and Text Colors */
+    .stApp { background-color: #ffffff; }
+    h1, p, label { color: #1a5276 !important; }
+    
+    /* Input Area - Cursor Fix */
+    .stTextArea textarea {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 2px solid #1a5276 !important;
+        caret-color: #000000 !important; /* Isse likhne wala point/cursor dikhega */
     }
     
-    /* Ensure text stays white even on hover */
-    div.stButton > button:hover, div.stButton > button:active, div.stButton > button:focus {
-        color: #ffffff !important;
-        background-color: #2471a3 !important;
-        border: none !important;
+    /* Button Styling */
+    .stButton>button {
+        width: 100%;
+        background-color: #1a5276 !important;
+        color: white !important;
+        border-radius: 8px;
+        height: 50px;
+        font-weight: bold;
     }
+    </style>
+    """, unsafe_allow_html=True)
 
-    /* 4. Text Area Fix (Black Cursor and Black Text) */
-    .stTextArea textarea {
-        background-color: #f8f9fa !important;
-        color: #000000 !important;
-        caret-color: #ff0000 !important; /* Bright
+st.title("🛡️ ShieldAI: Live Security Scanner")
+st.write("Professional Spam Detection System - Designed by Pritam Dash")
+
+# Input area
+input_sms = st.text_area("Analyze Message Content", placeholder="Yahan apna message paste karein...", height=150)
+
+if st.button('🚀 EXECUTE DEEP SCAN'):
+    if input_sms:
+        vector_input = tfidf.transform([input_sms])
+        result = model.predict(vector_input)[0]
+        proba = model.predict_proba(vector_input)[0]
+        confidence = max(proba) * 100
+
+        if result == 1:
+            st.error(f"🚨 SPAM DETECTED! (AI Confidence: {confidence:.2f}%)")
+        else:
+            st.success(f"✅ VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
+    else:
+        st.info("ℹ️ Please enter a message to scan.")
