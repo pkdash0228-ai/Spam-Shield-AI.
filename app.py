@@ -8,75 +8,111 @@ try:
 except:
     st.error("Error: Model files not found!")
 
-st.set_page_config(page_title="ShieldAI Dark Ops", page_icon="🛡️", layout="centered")
+st.set_page_config(page_title="ShieldAI Console", page_icon="🛡️", layout="centered")
 
-# --- DARK MODE DESIGN OVERHAUL ---
+# --- DARK CONFIGURATION ARCHITECTURE ---
 st.markdown("""
     <style>
-    /* 1. Background Pure Black */
+    /* 1. Global Dark Theme Override */
     .stApp {
-        background-color: #000000 !important;
+        background-color: #0f111a !important; /* Premium dark background like references */
     }
 
-    /* 2. All Text to Pure White */
-    h1, h2, h3, p, label, .stMarkdown, .stText, span {
+    /* 2. Standard Text and Headings */
+    h2, h3, p, label, .stMarkdown, .stText, span {
         color: #ffffff !important;
-        font-family: 'Courier New', Courier, monospace !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     }
 
-    /* 3. Text Area - Black Background, White Border, White Text/Cursor */
+    /* 3. The Custom Header Component to mimic 1000189947.jpg */
+    .app-header-container {
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important;
+        margin-top: 10px !important;
+        margin-bottom: 25px !important;
+    }
+    .app-logo {
+        font-size: 55px !important; /* Matches size of image logo */
+        line-height: 1 !important;
+    }
+    .app-title-text {
+        color: #ffffff !important;
+        font-size: 42px !important; /* Clean, bold typography */
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        font-family: 'Segoe UI', sans-serif !important;
+    }
+
+    /* 4. Input Architecture Styling */
+    .stTextArea label {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        color: #a0a5b5 !important; /* Muted silver for standard label look */
+        margin-bottom: 8px !important;
+    }
     .stTextArea textarea {
-        background-color: #000000 !important;
+        background-color: #1a1c24 !important;
         color: #ffffff !important;
-        caret-color: #ffffff !important; /* White Cursor */
-        border: 2px solid #ffffff !important;
+        caret-color: #ffffff !important;
+        border: 1px solid #2d313f !important;
+        border-radius: 8px !important;
         font-size: 16px !important;
     }
+    .stTextArea textarea:focus {
+        border-color: #ffffff !important;
+    }
 
-    /* 4. Button - White Background with Black Text */
+    /* 5. Minimalist Action Component */
     div.stButton > button {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border-radius: 0px !important; /* Sharp edges for terminal look */
-        width: 100% !important;
-        height: 50px !important;
-        font-size: 18px !important;
-        font-weight: bold !important;
-        border: none !important;
-        text-transform: uppercase !important;
+        background-color: transparent !important;
+        color: #ffffff !important;
+        border: 1px solid #2d313f !important;
+        border-radius: 8px !important;
+        padding: 10px 24px !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
     }
-    
     div.stButton > button:hover {
-        background-color: #cccccc !important;
-        color: #000000 !important;
+        border-color: #ffffff !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    div.stButton > button p {
+        color: #ffffff !important;
     }
 
-    /* 5. Result Boxes Styling */
+    /* 6. Alert Architecture Modifiers */
     .stAlert {
-        background-color: #1a1a1a !important;
-        color: #ffffff !important;
-        border: 1px solid #ffffff !important;
+        background-color: #1a1c24 !important;
+        border: 1px solid #2d313f !important;
+        border-radius: 8px !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Dashboard UI
-st.title("🛡️ SHIELDAI: DARK SECURITY CONSOLE")
+# --- CUSTOM HEADER LAYOUT (As requested per 1000189947.jpg) ---
+st.markdown("""
+    <div class="app-header-container">
+        <div class="app-logo">🛡️</div>
+        <div class="app-title-text">ShieldAI Spam Detection Web App</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown(f"""
-    **OPERATOR:** PRITAM KUMAR DASH | **SYSTEM:** LIVE | **ENCRYPTION:** ACTIVE
+st.markdown("""
+    **Operator:** PRITAM KUMAR DASH | **System:** Live Deployment Architecture
     
     ---
-    **ANALYTICS ENGINE:** This console employs **Multinomial Naive Bayes** to dissect incoming telemetry. It is optimized for detecting adversarial phishing patterns and linguistic anomalies.
     """, unsafe_allow_html=True)
 
 # Input area
-input_sms = st.text_area("INCOMING DATA STREAM", 
-                         placeholder="Paste encrypted or suspicious text for analysis...", 
-                         height=150)
+input_sms = st.text_area("Communication Telemetry Input", 
+                         placeholder="Paste structural message telemetry stream here...", 
+                         height=140)
 
 # Execution Logic
-if st.button('INITIATE DEEP ANALYSIS'):
+if st.button('Run Deep Scan'):
     if input_sms:
         vector_input = tfidf.transform([input_sms])
         result = model.predict(vector_input)[0]
@@ -84,8 +120,8 @@ if st.button('INITIATE DEEP ANALYSIS'):
         confidence = max(proba) * 100
 
         if result == 1:
-            st.error(f"⚠️ THREAT DETECTED! (CONFIDENCE: {confidence:.2f}%)")
+            st.error(f"🚨 CRITICAL THREAT DETECTED! (AI Confidence: {confidence:.2f}%)")
         else:
-            st.success(f"✅ CLEAR: NO ANOMALIES FOUND (CONFIDENCE: {confidence:.2f}%)")
+            st.success(f"✅ VERIFIED SAFE (AI Confidence: {confidence:.2f}%)")
     else:
-        st.info("System waiting for input telemetry...")
+        st.info("System initializing... Provide tracking telemetry.")
